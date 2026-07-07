@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { notFound, useParams } from 'next/navigation';
-import { getPostBySlug } from '@/lib/blog';
+import { getPostBySlug, getAllPosts } from '@/lib/blog';
 import Header from '@/components/sections/header';
 import Footer from '@/components/sections/footer';
 import SmoothTransitionsProvider from '@/components/animations/smooth-transitions';
@@ -16,6 +16,7 @@ export default function BlogPostPage() {
   const params = useParams();
   const slug = params?.slug as string;
   const post = getPostBySlug(slug);
+  const relatedPosts = post ? getAllPosts().filter(p => p.category === post.category && p.id !== post.id).slice(0, 3) : [];
   const [contentHtml, setContentHtml] = useState('');
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -144,45 +145,69 @@ export default function BlogPostPage() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.4 }}
-              className="prose prose-invert prose-purple max-w-4xl mx-auto 
+              className="prose prose-invert prose-purple max-w-none w-full
                 prose-headings:text-white prose-headings:font-bold prose-headings:tracking-tighter
-                prose-h2:text-4xl md:prose-h2:text-5xl prose-h2:mt-24 prose-h2:mb-12
+                prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-20 prose-h2:mb-10
                 prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-16 prose-h3:mb-8
-                prose-p:text-white/60 prose-p:text-xl md:prose-p:text-2xl prose-p:font-light prose-p:leading-[1.6] prose-p:mb-10
+                prose-p:text-white/80 prose-p:text-lg md:prose-p:text-xl prose-p:font-normal prose-p:leading-[1.8] prose-p:mb-8
                 prose-strong:text-white prose-strong:font-bold
-                prose-blockquote:border-l-4 prose-blockquote:border-purple-600 prose-blockquote:bg-purple-950/20 prose-blockquote:p-12 prose-blockquote:rounded-3xl prose-blockquote:not-italic prose-blockquote:text-white prose-blockquote:text-2xl prose-blockquote:font-medium prose-blockquote:my-20
-                prose-ul:list-disc prose-ul:pl-8 prose-li:text-white/60 prose-li:text-lg prose-li:mb-4
-                prose-img:rounded-[2rem] prose-img:border prose-img:border-white/10 prose-img:my-20
-                prose-hr:border-white/5 prose-hr:my-24"
+                prose-blockquote:border-l-4 prose-blockquote:border-purple-600 prose-blockquote:bg-purple-950/20 prose-blockquote:p-8 prose-blockquote:rounded-2xl prose-blockquote:not-italic prose-blockquote:text-white/90 prose-blockquote:text-xl prose-blockquote:font-medium prose-blockquote:my-16
+                prose-ul:list-disc prose-ul:pl-6 prose-li:text-white/80 prose-li:text-lg md:prose-li:text-xl prose-li:mb-3
+                prose-img:rounded-3xl prose-img:border prose-img:border-white/10 prose-img:my-16 prose-img:w-full prose-img:shadow-2xl
+                prose-hr:border-white/5 prose-hr:my-20"
               dangerouslySetInnerHTML={{ __html: contentHtml }}
             />
 
-            {/* Newsletter/CTA section at bottom of blog */}
+            {/* Contact CTA */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="mt-40 p-12 md:p-20 rounded-[4rem] border border-white/10 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-3xl relative overflow-hidden group"
+              className="mt-32 p-10 md:p-16 rounded-[3rem] border border-white/10 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-2xl relative overflow-hidden group max-w-4xl mx-auto text-center"
             >
-              <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-purple-600/10 rounded-full blur-[100px] -mr-20 -mt-20 group-hover:bg-purple-600/20 transition-colors duration-700" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px] -z-10 group-hover:bg-purple-600/20 transition-colors duration-700" />
               
-              <div className="max-w-2xl relative z-10">
-                <h3 className="text-3xl md:text-5xl font-bold tracking-tighter mb-8">Stay Ahead of the Curve.</h3>
-                <p className="text-white/40 text-lg md:text-xl font-light mb-12 leading-relaxed">
-                  Join our exclusive circle of industry leaders and receive deep-dive insights directly into your inbox. No noise, just engineering excellence.
+              <div className="relative z-10">
+                <h3 className="text-3xl md:text-5xl font-bold tracking-tighter mb-6">Ready to Transform Your Process?</h3>
+                <p className="text-white/60 text-lg md:text-xl font-light mb-10 leading-relaxed max-w-2xl mx-auto">
+                  Don't let manual tracking and raw material wastage eat into your profits. Get in touch with our experts today and discover how Zyxen can elevate your production line.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <input 
-                    type="email" 
-                    placeholder="ENTER YOUR EMAIL" 
-                    className="flex-1 px-8 py-5 bg-black/50 border border-white/10 rounded-full text-sm font-mono focus:outline-none focus:border-purple-500/50 transition-colors"
-                  />
-                  <button className="px-10 py-5 bg-white text-black font-bold uppercase tracking-[0.2em] text-[10px] rounded-full hover:scale-105 active:scale-95 transition-all">
-                    Subscribe
-                  </button>
-                </div>
+                <Link href="/contact" className="inline-block px-12 py-5 bg-white text-black font-bold uppercase tracking-[0.2em] text-xs rounded-full hover:scale-105 active:scale-95 transition-all">
+                  Contact Us Now
+                </Link>
               </div>
             </motion.div>
+
+            {/* Related Blogs Section */}
+            {relatedPosts.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="mt-32 border-t border-white/10 pt-20"
+              >
+                <h3 className="text-3xl md:text-4xl font-bold tracking-tighter mb-12">Read More Related Insights</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {relatedPosts.map(rp => (
+                    <Link key={rp.id} href={`/blogs/${rp.slug}`} className="group flex flex-col gap-4">
+                      <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10">
+                        <Image src={rp.image} alt={rp.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+                      </div>
+                      <div className="flex items-center gap-3 mt-4">
+                        <span className="px-3 py-1 rounded-full border border-purple-500/30 bg-purple-500/10 text-[9px] font-bold tracking-widest uppercase text-purple-400">
+                          {rp.category}
+                        </span>
+                        <span className="text-xs text-white/40">{rp.date}</span>
+                      </div>
+                      <h4 className="text-xl font-bold tracking-tight text-white group-hover:text-purple-400 transition-colors line-clamp-2">
+                        {rp.title}
+                      </h4>
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
+            )}
 
             {/* Footer Navigation */}
             <div className="mt-24 pt-12 border-t border-white/5 flex items-center justify-between">
