@@ -147,15 +147,15 @@ export default function BlogPostPage() {
               transition={{ duration: 1, delay: 0.4 }}
               className="prose prose-invert prose-purple max-w-none w-full
                 prose-headings:text-white prose-headings:font-bold prose-headings:tracking-tight
-                prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-24 md:prose-h2:mt-32 prose-h2:mb-12
-                prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-16 md:prose-h3:mt-20 prose-h3:mb-8
-                prose-p:text-white/70 prose-p:text-lg md:prose-p:text-xl prose-p:font-light prose-p:leading-[2.2] prose-p:mb-12
+                prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-16 md:prose-h2:mt-20 prose-h2:mb-8
+                prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-12 md:prose-h3:mt-16 prose-h3:mb-6
+                prose-p:text-white/70 prose-p:text-lg md:prose-p:text-xl prose-p:font-light prose-p:leading-relaxed prose-p:mb-8
                 prose-strong:text-white prose-strong:font-semibold
-                prose-blockquote:border-l-4 prose-blockquote:border-purple-600 prose-blockquote:bg-purple-950/20 prose-blockquote:px-8 md:prose-blockquote:px-12 prose-blockquote:py-8 md:prose-blockquote:py-10 prose-blockquote:rounded-3xl prose-blockquote:not-italic prose-blockquote:text-white/90 prose-blockquote:text-xl md:prose-blockquote:text-2xl prose-blockquote:font-normal prose-blockquote:my-20 prose-blockquote:leading-[1.8]
-                prose-ul:list-disc prose-ul:ml-8 md:prose-ul:ml-12 prose-ul:space-y-6 prose-ul:my-12
-                prose-li:text-white/70 prose-li:text-lg md:prose-li:text-xl prose-li:leading-[1.8] prose-li:pl-4
-                prose-img:rounded-[2rem] md:prose-img:rounded-[3rem] prose-img:border prose-img:border-white/10 prose-img:my-24 prose-img:w-full prose-img:shadow-2xl
-                prose-hr:border-white/5 prose-hr:my-24"
+                prose-blockquote:border-l-4 prose-blockquote:border-purple-600 prose-blockquote:bg-purple-950/20 prose-blockquote:px-8 md:prose-blockquote:px-12 prose-blockquote:py-6 md:prose-blockquote:py-8 prose-blockquote:rounded-3xl prose-blockquote:not-italic prose-blockquote:text-white/90 prose-blockquote:text-xl md:prose-blockquote:text-2xl prose-blockquote:font-normal prose-blockquote:my-12 prose-blockquote:leading-relaxed
+                prose-ul:list-disc prose-ul:ml-8 md:prose-ul:ml-12 prose-ul:space-y-3 prose-ul:my-8
+                prose-li:text-white/70 prose-li:text-lg md:prose-li:text-xl prose-li:leading-relaxed prose-li:pl-2
+                prose-img:rounded-[2rem] md:prose-img:rounded-[3rem] prose-img:border prose-img:border-white/10 prose-img:my-16 prose-img:w-full prose-img:shadow-2xl
+                prose-hr:border-white/5 prose-hr:my-16"
               dangerouslySetInnerHTML={{ __html: contentHtml }}
             />
 
