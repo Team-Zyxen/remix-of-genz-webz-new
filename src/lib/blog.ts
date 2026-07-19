@@ -1,4 +1,5 @@
-import blogData from '../../content/blogs.json';
+import fs from 'fs';
+import path from 'path';
 
 export interface BlogPost {
   id: string;
@@ -15,10 +16,33 @@ export interface BlogPost {
   image: string;
 }
 
+const blogsDirectory = path.join(process.cwd(), 'content', 'blog');
+
 export function getAllPosts(): BlogPost[] {
-  return (blogData.posts as BlogPost[]).filter(post => post.published);
+  if (!fs.existsSync(blogsDirectory)) {
+    return [];
+  }
+  
+  const fileNames = fs.readdirSync(blogsDirectory);
+  const allPostsData = fileNames
+    .filter(fileName => fileName.endsWith('.json'))
+    .map(fileName => {
+      const fullPath = path.join(blogsDirectory, fileName);
+      const fileContents = fs.readFileSync(fullPath, 'utf8');
+      try {
+        const post = JSON.parse(fileContents) as BlogPost;
+        return post;
+      } catch (e) {
+        console.error(`Error parsing ${fileName}`, e);
+        return null;
+      }
+    })
+    .filter((post): post is BlogPost => post !== null && post.published);
+    
+  return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
-  return (blogData.posts as BlogPost[]).find(post => post.slug === slug && post.published);
+  const posts = getAllPosts();
+  return posts.find(post => post.slug === slug);
 }
